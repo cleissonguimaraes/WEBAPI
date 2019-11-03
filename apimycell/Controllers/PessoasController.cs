@@ -57,12 +57,17 @@ namespace apimycell.Controllers
             repositorio.Remove(id);
         }
     }*/
-        private MeuContext db = new MeuContext();
+        private DatabaseContext db = new DatabaseContext();
 
         // GET api/Usuario
         public IEnumerable<Pessoa> GetAllProdutos()
         {
-            return db.Pessoas.ToList();
+            IEnumerable<Pessoa> pessoas = db.Pessoas.ToList();
+            if (pessoas == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            }
+            return pessoas;
         }
 
         // GET api/Usuario/5
